@@ -45,7 +45,6 @@ class MainActivity : ComponentActivity() {
         testJson()
 
         super.onCreate(savedInstanceState)
-
         WindowCompat.setDecorFitsSystemWindows(window, false)
         window.statusBarColor = Color.Transparent.value.toInt()
         window.navigationBarColor = Color.Transparent.value.toInt()
@@ -91,9 +90,9 @@ class MainActivity : ComponentActivity() {
                             if (stack.isEmpty()) {
                                 walk.value = false
                             } else {
-                                stack.pop()
+                                val previousScreen = stack.pop()
                                 bottomBarShow.value = false
-                                if (stack.isEmpty()) {
+                                if (stack.isEmpty() || screen.value == Navigate.SIGN_IN) {
                                     walk.value = false
                                     Toast.makeText(
                                         window.context,

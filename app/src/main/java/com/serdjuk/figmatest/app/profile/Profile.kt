@@ -13,7 +13,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.*
+import androidx.compose.material.ExtendedFloatingActionButton
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -97,13 +100,15 @@ fun Profile() {
                         Icon(
                             painter = painterResource(id = R.drawable.arrow_left),
                             contentDescription = null,
-                            modifier = Modifier.padding(start = 1f.dp)
+                            modifier = Modifier.padding(start = 1f.dp),
+                            tint = BlackColor
                         )
                         Text(
                             text = "Profile",
                             style = MaterialTheme.typography.h2,
                             fontWeight = FontWeight(600),
                             fontSize = 15f.sp,
+                            color = BlackColor
                         )
                     }
                     // TODO Photo
@@ -122,17 +127,19 @@ fun Profile() {
                     )
 
                     // change photo button
-//                    Text(
-//                        text = "Change photo",
-//                        style = MaterialTheme.typography.h2,
-//                        fontSize = 8.sp
-//                    )
+                    Text(
+                        text = "Change photo",
+                        style = MaterialTheme.typography.h2,
+                        fontSize = 8.sp,
+                        color = MutedColor
+                    )
                     // name
                     Text(
                         text = "${UserData.firstName.value} ${UserData.lastName.value}",
                         style = MaterialTheme.typography.h2,
                         fontWeight = FontWeight(700),
-                        fontSize = 15f.sp
+                        fontSize = 15f.sp,
+                        color = UserNameColor
                     )
 
                     ExtendedFloatingActionButton(
@@ -302,12 +309,12 @@ private fun ProfileLabelButton(
                 Icon(
                     painter = painterResource(id = R.drawable.ellipse_25),
                     contentDescription = null,
-//                    tint = CircleColor
+                    tint = CircleColor
                 )
                 Icon(
                     painter = painterResource(id = it), contentDescription = null,
                     modifier = Modifier.align(Alignment.Center),
-//                    tint = ProfileLabelColor
+                    tint = BlackColor
                 )
             }
         }
@@ -316,7 +323,7 @@ private fun ProfileLabelButton(
             style = MaterialTheme.typography.h1.copy(
                 fontWeight = FontWeight(500),
                 fontSize = 14f.sp,
-                color = MaterialTheme.colors.onBackground,
+                color = BlackColor,
             ),
             modifier = Modifier.padding(start = 6f.dp),
         )
@@ -325,7 +332,7 @@ private fun ProfileLabelButton(
             Icon(
                 painter = painterResource(id = it),
                 contentDescription = null,
-//                tint = ProfileLabelColor
+                tint = BlackColor
             )
         }
         rightString?.let {
@@ -334,7 +341,7 @@ private fun ProfileLabelButton(
                 style = MaterialTheme.typography.h1,
                 fontWeight = FontWeight(500),
                 fontSize = 14f.sp,
-//                color = ProfileLabelColor
+                color = BlackColor
             )
         }
     }

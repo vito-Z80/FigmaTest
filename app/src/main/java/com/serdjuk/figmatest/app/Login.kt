@@ -1,7 +1,8 @@
 package com.serdjuk.figmatest.app
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -10,6 +11,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.serdjuk.figmatest.data.*
 import com.serdjuk.figmatest.dbSql
@@ -57,19 +59,21 @@ fun Login() {
 
 
     AppFile.loadData(context)
-    Surface(color = MaterialTheme.colors.background) {
-        Column(
-            verticalArrangement = Arrangement.SpaceEvenly,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(text = "Welcome back", style = MaterialTheme.typography.h1)
-            InputValue(value = UserData.firstName, placeholder = FIRST_NAME)
-            InputValue(value = UserData.password, placeholder = PASSWORD, pass = pass)
-            PadBottom(value = PAD_BOTTOM)
+    Column(
+        verticalArrangement = Arrangement.SpaceEvenly,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxSize()
+            .imePadding()
+    ) {
+        Text(text = "Welcome back", style = MaterialTheme.typography.h1)
+        InputValue(value = UserData.firstName, placeholder = FIRST_NAME)
+        InputValue(value = UserData.password, placeholder = PASSWORD, pass = pass)
+        PadBottom(value = PAD_BOTTOM)
 
-            EnterButton(text = "Login") {
-                checking.value = true
-            }
+        EnterButton(text = "Login") {
+            checking.value = true
         }
     }
+
 }

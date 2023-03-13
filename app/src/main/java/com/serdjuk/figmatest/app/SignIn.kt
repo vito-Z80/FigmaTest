@@ -24,8 +24,7 @@ import com.serdjuk.figmatest.R
 import com.serdjuk.figmatest.data.*
 import com.serdjuk.figmatest.dbSql
 import com.serdjuk.figmatest.screen
-import com.serdjuk.figmatest.ui.theme.FontColor2
-import com.serdjuk.figmatest.ui.theme.Foreground
+import com.serdjuk.figmatest.ui.theme.*
 
 
 @Composable
@@ -47,7 +46,10 @@ fun SignIn() {
 
         Column(
             verticalArrangement = Arrangement.SpaceEvenly,
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxSize()
+                .imePadding()
         ) {
 
 
@@ -55,7 +57,7 @@ fun SignIn() {
             Text(
                 text = "Sign in",
                 style = MaterialTheme.typography.h1,
-                color = MaterialTheme.colors.onBackground
+                color = ParagraphColor
             )
 
             // inputs
@@ -150,12 +152,12 @@ private fun InButtons() {
             Text(
                 text = "Already have an account?",
                 style = MaterialTheme.typography.h2,
-                color = FontColor2
+                color = MutedColor
             )
             Text(
                 text = "Log in",
                 style = MaterialTheme.typography.h2,
-                color = FontColor2,
+                color = LinkColor,
                 textDecoration = TextDecoration.Underline,
                 modifier = Modifier
                     .padding(start = 16f.dp)
@@ -179,12 +181,12 @@ private fun LogInButtons() {
             Icon(
                 painter = painterResource(id = R.drawable.g_logo),
                 contentDescription = null,
-                tint = Foreground
+                tint = BlackColor
             )
             Text(
                 text = "Sign in with Google",
                 style = MaterialTheme.typography.h2,
-                color = FontColor2,
+                color = BlackColor,
                 modifier = Modifier.padding(start = 16f.dp)
             )
         }
@@ -197,12 +199,12 @@ private fun LogInButtons() {
             Icon(
                 painter = painterResource(id = R.drawable.apple_icon),
                 contentDescription = null,
-                tint = Foreground
+                tint = BlackColor
             )
             Text(
                 text = "Sign in with Apple",
                 style = MaterialTheme.typography.h2,
-                color = FontColor2,
+                color = BlackColor,
                 modifier = Modifier.padding(start = 16f.dp)
             )
         }

@@ -2,7 +2,6 @@ package com.serdjuk.figmatest.app.shop
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -18,7 +17,6 @@ import com.serdjuk.figmatest.app.FlashSaleDisplay
 import com.serdjuk.figmatest.app.LatestDisplay
 import com.serdjuk.figmatest.app.Search
 import com.serdjuk.figmatest.data.TopNavigationBar
-import com.serdjuk.figmatest.ui.theme.FigmaTestTheme
 
 @Composable
 fun ShopPage() {

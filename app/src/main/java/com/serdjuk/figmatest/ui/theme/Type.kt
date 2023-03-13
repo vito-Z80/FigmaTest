@@ -1,11 +1,9 @@
 package com.serdjuk.figmatest.ui.theme
 
 import androidx.compose.material.Typography
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
@@ -50,7 +48,7 @@ val Typography = Typography(
 
      */
     h2 = TextStyle(
-        color = FontColor2,
+        color = MutedColor,
         fontFamily = fonts,
         fontSize = 11f.sp,
         fontWeight = FontWeight(500),

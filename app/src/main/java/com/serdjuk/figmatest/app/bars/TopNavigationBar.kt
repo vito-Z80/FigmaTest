@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -21,7 +22,9 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.serdjuk.figmatest.R
 import com.serdjuk.figmatest.app.bottomBarShow
+import com.serdjuk.figmatest.app.shop.MultiplyColoredText
 import com.serdjuk.figmatest.screen
+import com.serdjuk.figmatest.ui.theme.BlackColor
 import com.serdjuk.figmatest.ui.theme.BorderColor
 
 @Composable
@@ -44,7 +47,12 @@ fun TopNavigationBar() {
             IconButton(onClick = { bottomBarShow.value = !bottomBarShow.value }) {
                 Icon(painter = painterResource(id = R.drawable.menu), contentDescription = null)
             }
-            Text(text = "Trade by data", style = MaterialTheme.typography.h1, fontSize = 20f.sp)
+            MultiplyColoredText(
+                words = listOf("Trade by ", "data"),
+                colors = listOf(BlackColor, Color(0xFF4E55D7)),
+                fontSize = 20.sp
+            )
+//            Text(text = "Trade by data", style = MaterialTheme.typography.h1, fontSize = 20f.sp)
             AsyncImage(
                 modifier = Modifier
                     .size(32f.dp)

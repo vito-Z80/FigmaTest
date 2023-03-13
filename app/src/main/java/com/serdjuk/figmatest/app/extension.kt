@@ -1,6 +1,7 @@
 package com.serdjuk.figmatest.app
 
 import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.AbsoluteRoundedCornerShape
@@ -78,7 +79,7 @@ fun InputValue(
 
     val keyboardController = LocalSoftwareKeyboardController.current
     val focus = remember { mutableStateOf(false) }
-    val error = remember { mutableStateOf(ClearColor) }
+    val error = remember { mutableStateOf(InputColor) }
     val context = LocalContext.current
 
     BasicTextField(
@@ -87,7 +88,7 @@ fun InputValue(
                 focus.value = focusState.isFocused
             }
             .border(
-                width = Dp(1f),
+                width = 1.dp,
                 color = error.value,
                 shape = AbsoluteRoundedCornerShape(INPUT_CORNER.dp)
             ),
@@ -111,10 +112,10 @@ fun InputValue(
                 focus.value = false
                 // error email format
                 if (regex == null) {
-                    error.value = ClearColor
+                    error.value = InputColor
                 } else {
                     if (regex.value.matchEntire(value.value)?.value != null) {
-                        error.value = ClearColor
+                        error.value = InputColor
                     } else {
                         error.value = RedColor
                         Toast.makeText(context, "Wrong EMAIL format", Toast.LENGTH_SHORT).show()
@@ -126,18 +127,27 @@ fun InputValue(
         decorationBox = { itf ->
             Box(
                 modifier = Modifier
-                    .height(29.dp)
+                    .height(32.dp)
                     .fillMaxWidth(0.75f)
+                    .background(
+                        color = InputColor,
+                        shape = AbsoluteRoundedCornerShape(INPUT_CORNER.dp)
+                    )
                     .border(
                         width = 1f.dp,
                         shape = AbsoluteRoundedCornerShape(INPUT_CORNER.dp),
-                        color = MaterialTheme.colors.onPrimary
+                        color = InputColor
                     )
                     .padding(8.dp),
                 contentAlignment = Alignment.Center
             ) {
                 if (value.value.isEmpty() /*&& !focus.value*/) {
-                    Text(text = placeholder, style = MaterialTheme.typography.h2)
+                    Text(
+                        text = placeholder,
+                        style = MaterialTheme.typography.h2,
+                        color = MutedColor,
+                        fontSize = 12.sp
+                    )
                 }
                 // show eye icon if pass != null
                 if (pass != null) {
