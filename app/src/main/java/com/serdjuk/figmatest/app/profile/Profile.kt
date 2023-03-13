@@ -13,7 +13,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -30,9 +29,9 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.serdjuk.figmatest.R
 import com.serdjuk.figmatest.data.DEFAULT_USER_AVATAR
-import com.serdjuk.figmatest.data.ReaderContract
+import com.serdjuk.figmatest.data.Navigate
 import com.serdjuk.figmatest.data.UserData
-import com.serdjuk.figmatest.dbSql
+import com.serdjuk.figmatest.screen
 import com.serdjuk.figmatest.ui.theme.*
 
 //  https://ngengesenior.medium.com/pick-image-from-gallery-in-jetpack-compose-5fa0d0a8ddaf
@@ -61,10 +60,8 @@ fun Profile() {
 //        } ?: DEFAULT_USER_AVATAR
 //    }
 
-    Surface(
-        color = MaterialTheme.colors.background
+    FigmaTestTheme {
 
-    ) {
 
         Column(
 
@@ -118,7 +115,7 @@ fun Profile() {
                             .size(96f.dp)
                             .clip(CircleShape)
                             .border(2.dp, BorderColor, CircleShape),
-                        model = UserData.avatar.value.ifEmpty { DEFAULT_USER_AVATAR } ,
+                        model = UserData.avatar.value.ifEmpty { DEFAULT_USER_AVATAR },
                         contentDescription = null,
                         alignment = Alignment.Center,
                         contentScale = ContentScale.Crop,
@@ -145,25 +142,19 @@ fun Profile() {
                             Text(
                                 text = "Upload item",
                                 style = MaterialTheme.typography.h1,
-                                fontSize = 14f.sp
+                                fontSize = 14f.sp,
+                                color = SignButtonTextColor
                             )
                         },
                         // on below line we are adding click listener.
                         onClick = {
 
                         },
-                        // on below line adding
-                        // a background color.
                         backgroundColor = SignButtonColor,
-                        // on below line we are
-                        // adding a content color.
-                        contentColor = SignButtonTextColor,
-                        // on below line we are
-                        // adding icon for our fab
                         icon = {
                             Icon(
                                 painter = painterResource(id = R.drawable.share),
-                                contentDescription = null
+                                contentDescription = null, tint = SignButtonTextColor
                             )
                         }
                     )
@@ -188,49 +179,53 @@ fun Profile() {
                             leftIconId = R.drawable.credit_card,
                             rightIconId = R.drawable.arrow_right,
                             text = "Trade store"
-                        )
+                        ) {}
                     }
                     item {
                         ProfileLabelButton(
                             leftIconId = R.drawable.credit_card,
                             rightIconId = R.drawable.arrow_right,
                             text = "Payment method"
-                        )
+                        ) {}
                     }
                     item {
                         ProfileLabelButton(
                             leftIconId = R.drawable.credit_card,
                             rightString = "$ ${UserData.balance.value.toInt()}",
                             text = "Balance"
-                        )
+                        ) {}
                     }
                     item {
                         ProfileLabelButton(
                             leftIconId = R.drawable.credit_card,
                             rightIconId = R.drawable.arrow_right,
                             text = "Trade history"
-                        )
+                        ) {}
                     }
                     item {
                         ProfileLabelButton(
                             leftIconId = R.drawable.reload,
                             rightIconId = R.drawable.arrow_right,
                             text = "Restore Purchase"
-                        )
+                        ) {}
                     }
                     item {
                         ProfileLabelButton(
                             leftIconId = R.drawable.question,
                             rightIconId = null,
                             text = "Help"
-                        )
+                        ) {}
                     }
                     item {
                         ProfileLabelButton(
                             leftIconId = R.drawable.log_out,
                             rightIconId = null,
-                            text = "Log out"
-                        )
+                            text = "Log out",
+                            rightString = null,
+                        ) {
+                            UserData.logOut()
+                            screen.value = Navigate.SIGN_IN
+                        }
                     }
                 }
             }
@@ -294,11 +289,12 @@ private fun ProfileLabelButton(
     rightIconId: Int? = null,
     rightString: String? = null,
     text: String,
+    clickable: () -> Unit,
 ) {
     Row(
         modifier = Modifier
             .padding(16f.dp)
-            .clickable { },
+            .clickable { clickable.invoke() },
         verticalAlignment = Alignment.CenterVertically
     ) {
         leftIconId?.let {
@@ -306,21 +302,21 @@ private fun ProfileLabelButton(
                 Icon(
                     painter = painterResource(id = R.drawable.ellipse_25),
                     contentDescription = null,
-                    tint = CircleColor
+//                    tint = CircleColor
                 )
                 Icon(
                     painter = painterResource(id = it), contentDescription = null,
                     modifier = Modifier.align(Alignment.Center),
-                    tint = ProfileLabelColor
+//                    tint = ProfileLabelColor
                 )
             }
         }
         Text(
             text = text,
-            style = MaterialTheme.typography.h2.copy(
+            style = MaterialTheme.typography.h1.copy(
                 fontWeight = FontWeight(500),
-                color = ProfileLabelColor,
                 fontSize = 14f.sp,
+                color = MaterialTheme.colors.onBackground,
             ),
             modifier = Modifier.padding(start = 6f.dp),
         )
@@ -329,16 +325,16 @@ private fun ProfileLabelButton(
             Icon(
                 painter = painterResource(id = it),
                 contentDescription = null,
-                tint = ProfileLabelColor
+//                tint = ProfileLabelColor
             )
         }
         rightString?.let {
             Text(
                 text = it,
-                style = MaterialTheme.typography.h2,
+                style = MaterialTheme.typography.h1,
                 fontWeight = FontWeight(500),
                 fontSize = 14f.sp,
-                color = ProfileLabelColor
+//                color = ProfileLabelColor
             )
         }
     }

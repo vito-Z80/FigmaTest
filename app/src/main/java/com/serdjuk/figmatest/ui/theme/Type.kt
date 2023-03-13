@@ -1,9 +1,11 @@
 package com.serdjuk.figmatest.ui.theme
 
 import androidx.compose.material.Typography
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
@@ -16,6 +18,8 @@ val fonts = FontFamily(
         Font(com.serdjuk.figmatest.R.font.montserrat_medium, weight = FontWeight.Medium),
         Font(com.serdjuk.figmatest.R.font.montserrat_medium, weight = FontWeight.Bold),
         Font(com.serdjuk.figmatest.R.font.montserrat_medium, weight = FontWeight.Light),
+        Font(com.serdjuk.figmatest.R.font.montserrat_medium, weight = FontWeight.ExtraLight),
+        Font(com.serdjuk.figmatest.R.font.montserrat_medium, weight = FontWeight.ExtraBold),
     )
 )
 
@@ -28,10 +32,10 @@ val Typography = Typography(
 //        fontSize = 16.sp
 //    ),
     h1 = TextStyle(
-        color = ParagraphColor,
+//        color = Color.White,
         fontFamily = fonts,
         fontSize = 26f.sp,
-        fontWeight = FontWeight(600),
+        fontWeight = FontWeight(700),
 //        lineHeight = 32f.sp,
         letterSpacing = (-0.30000001192092896).sp,
         textAlign = TextAlign.Center,

@@ -11,7 +11,7 @@ val ClearColor = Color(0x00000000)
 
 val BorderColor = Color(0xFF4E4D4D)
 val Background = Color(0xFFCDCBC7)
-val BlackColor = Color(0xFF000000)
+val Foreground = Color(0xFF8B5151)
 val ParagraphColor = Color(0xFF161826)
 val FontColor2 = Color(0xFF7B7B7B)
 val CircleColor = Color(0xFFEEEFF4)

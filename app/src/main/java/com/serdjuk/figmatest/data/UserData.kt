@@ -63,6 +63,15 @@ object UserData {
         return itemIds.size > 0
     }
 
+    fun logOut() {
+        firstName.value = ""
+        lastName.value = ""
+        emailAddress.value = ""
+        password.value = ""
+        avatar.value = ""
+        balance.value = 0.0
+    }
+
     fun gsonVariant() = UserDataGson(
         firstName = firstName.value,
         lastName = lastName.value,

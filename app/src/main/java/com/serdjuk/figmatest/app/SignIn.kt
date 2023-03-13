@@ -8,7 +8,9 @@ import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -22,9 +24,8 @@ import com.serdjuk.figmatest.R
 import com.serdjuk.figmatest.data.*
 import com.serdjuk.figmatest.dbSql
 import com.serdjuk.figmatest.screen
-import com.serdjuk.figmatest.ui.theme.BlackColor
-import com.serdjuk.figmatest.ui.theme.FigmaTestTheme
 import com.serdjuk.figmatest.ui.theme.FontColor2
+import com.serdjuk.figmatest.ui.theme.Foreground
 
 
 @Composable
@@ -34,50 +35,49 @@ fun SignIn() {
 
     val screenSize = remember { mutableStateOf(IntSize(0, 0)) }
     val density = Density(LocalContext.current).density
-    FigmaTestTheme {
 
+    Surface(
+        modifier = Modifier.onGloballyPositioned {
+            screenSize.value = IntSize(
+                (it.size.width.toFloat() / density).toInt(),
+                (it.size.height.toFloat() / density).toInt()
+            )
+        }
+    ) {
 
-        Surface(
-            color = MaterialTheme.colors.background,
-            modifier = Modifier.onGloballyPositioned {
-                screenSize.value = IntSize(
-                    (it.size.width.toFloat() / density).toInt(),
-                    (it.size.height.toFloat() / density).toInt()
-                )
-            }
+        Column(
+            verticalArrangement = Arrangement.SpaceEvenly,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            Column(
-                verticalArrangement = Arrangement.SpaceEvenly,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
+
+            // sign in label
+            Text(
+                text = "Sign in",
+                style = MaterialTheme.typography.h1,
+                color = MaterialTheme.colors.onBackground
+            )
+
+            // inputs
+            InputValue(
+                value = UserData.firstName,
+                placeholder = "First name"
+            )
+            InputValue(
+                value = UserData.lastName,
+                placeholder = "Last name"
+            )
+            InputValue(
+                value = UserData.emailAddress,
+                placeholder = "Email",
+                regex = emailRegex
+            )
+            // sign in button
+            InButtons()
+            LogInButtons()
 
 
-                // sign in label
-                Text(text = "Sign in", style = MaterialTheme.typography.h1)
-
-                // inputs
-                InputValue(
-                    value = UserData.firstName,
-                    placeholder = "First name"
-                )
-                InputValue(
-                    value = UserData.lastName,
-                    placeholder = "Last name"
-                )
-                InputValue(
-                    value = UserData.emailAddress,
-                    placeholder = "Email",
-                    regex = emailRegex
-                )
-                // sign in button
-                InButtons()
-                LogInButtons()
-
-
-            }
         }
-
     }
 
 
@@ -179,7 +179,7 @@ private fun LogInButtons() {
             Icon(
                 painter = painterResource(id = R.drawable.g_logo),
                 contentDescription = null,
-                tint = BlackColor
+                tint = Foreground
             )
             Text(
                 text = "Sign in with Google",
@@ -197,7 +197,7 @@ private fun LogInButtons() {
             Icon(
                 painter = painterResource(id = R.drawable.apple_icon),
                 contentDescription = null,
-                tint = BlackColor
+                tint = Foreground
             )
             Text(
                 text = "Sign in with Apple",

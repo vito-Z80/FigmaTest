@@ -78,21 +78,14 @@ class MainActivity : ComponentActivity() {
 
 
                 Scaffold(modifier = Modifier, topBar = { }, bottomBar = {}) {
+
                     val walk = remember {
                         mutableStateOf(true)
                     }
                     Surface(
                         modifier = Modifier
-                            .onSizeChanged { size ->
-                                println(size.width)
-                                println(size.height)
-                            }
-                            .fillMaxSize()
-                            .background(
-                                color = MaterialTheme.colors.background,
-                            )
                             .navigationBarsPadding()
-//                        .padding(10.dp),
+                            .fillMaxSize()
                     ) {
                         BackHandler(enabled = walk.value) {
                             if (stack.isEmpty()) {

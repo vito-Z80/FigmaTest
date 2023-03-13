@@ -25,9 +25,7 @@ fun ShopPage() {
     val screenSize = remember { mutableStateOf(IntSize(0, 0)) }
     val density = Density(LocalContext.current).density
 
-    FigmaTestTheme {
         Surface(
-            color = MaterialTheme.colors.background,
             modifier = Modifier.onGloballyPositioned {
                 screenSize.value = IntSize(
                     (it.size.width.toFloat() / density).toInt(),
@@ -77,5 +75,4 @@ fun ShopPage() {
 
             }
         }
-    }
 }
