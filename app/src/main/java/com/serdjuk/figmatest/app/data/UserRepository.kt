@@ -40,7 +40,7 @@ class UserRepository(context: Context) {
     }
 
 
-    private fun getUserFirstName() = share.getString(SHARE_USER_FIRST_NAME, EMPTY_STRING) ?: EMPTY_STRING
+    fun getUserFirstName() = share.getString(SHARE_USER_FIRST_NAME, EMPTY_STRING) ?: EMPTY_STRING
     private fun getUserLastName() = share.getString(SHARE_USER_LAST_NAME, EMPTY_STRING) ?: EMPTY_STRING
     private fun getUserEmail() = share.getString(SHARE_USER_EMAIL_ADDRESS, EMPTY_STRING) ?: EMPTY_STRING
     private fun getUserPassword() = share.getString(SHARE_USER_PASSWORD, EMPTY_STRING) ?: EMPTY_STRING

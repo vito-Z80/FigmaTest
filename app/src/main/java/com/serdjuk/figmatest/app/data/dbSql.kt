@@ -22,15 +22,14 @@ lateinit var dbSql: DbSql
 //var sale = arrayListOf<FlashSale>()
 
 
-
 object ReaderContract {
 
 
     // Table contents are grouped together in an anonymous object.
     object FeedEntry : BaseColumns {
         const val TABLE_NAME_USER = "User"
-        const val TABLE_NAME_SALE = "Sale"
-        const val TABLE_NAME_LATEST = "Latest"
+//        const val TABLE_NAME_SALE = "Sale"
+//        const val TABLE_NAME_LATEST = "Latest"
 
         //        const val TABLE_NAME_MAIN = "Main"
         const val COLUMN_NAME_FIRST_NAME = "FIRSTNAME"
@@ -56,22 +55,22 @@ object ReaderContract {
                 "${FeedEntry.COLUMN_NAME_EMAIL} TEXT," +
                 "${FeedEntry.COLUMN_NAME_AVATAR} TEXT)"
 
-    const val SQL_CREATE_SALE_ENTRIES =
-        "CREATE TABLE ${FeedEntry.TABLE_NAME_SALE} (" +
-                "${BaseColumns._ID} INTEGER PRIMARY KEY," +
-                "${FeedEntry.COLUMN_NAME_NAME} TEXT," +
-                "${FeedEntry.COLUMN_NAME_CATEGORY} TEXT," +
-                "${FeedEntry.COLUMN_NAME_IMAGE_URL} TEXT," +
-                "${FeedEntry.COLUMN_NAME_PRICE} TEXT," +
-                "${FeedEntry.COLUMN_NAME_DISCOUNT} TEXT)"
-
-    const val SQL_CREATE_LATEST_ENTRIES =
-        "CREATE TABLE ${FeedEntry.TABLE_NAME_LATEST} (" +
-                "${BaseColumns._ID} INTEGER PRIMARY KEY," +
-                "${FeedEntry.COLUMN_NAME_NAME} TEXT," +
-                "${FeedEntry.COLUMN_NAME_CATEGORY} TEXT," +
-                "${FeedEntry.COLUMN_NAME_IMAGE_URL} TEXT," +
-                "${FeedEntry.COLUMN_NAME_PRICE} TEXT)"
+//    const val SQL_CREATE_SALE_ENTRIES =
+//        "CREATE TABLE ${FeedEntry.TABLE_NAME_SALE} (" +
+//                "${BaseColumns._ID} INTEGER PRIMARY KEY," +
+//                "${FeedEntry.COLUMN_NAME_NAME} TEXT," +
+//                "${FeedEntry.COLUMN_NAME_CATEGORY} TEXT," +
+//                "${FeedEntry.COLUMN_NAME_IMAGE_URL} TEXT," +
+//                "${FeedEntry.COLUMN_NAME_PRICE} TEXT," +
+//                "${FeedEntry.COLUMN_NAME_DISCOUNT} TEXT)"
+//
+//    const val SQL_CREATE_LATEST_ENTRIES =
+//        "CREATE TABLE ${FeedEntry.TABLE_NAME_LATEST} (" +
+//                "${BaseColumns._ID} INTEGER PRIMARY KEY," +
+//                "${FeedEntry.COLUMN_NAME_NAME} TEXT," +
+//                "${FeedEntry.COLUMN_NAME_CATEGORY} TEXT," +
+//                "${FeedEntry.COLUMN_NAME_IMAGE_URL} TEXT," +
+//                "${FeedEntry.COLUMN_NAME_PRICE} TEXT)"
 }
 
 
@@ -79,16 +78,16 @@ class FeedReaderDbHelper(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(ReaderContract.SQL_CREATE_USER_ENTRIES)
-        db.execSQL(ReaderContract.SQL_CREATE_SALE_ENTRIES)
-        db.execSQL(ReaderContract.SQL_CREATE_LATEST_ENTRIES)
+//        db.execSQL(ReaderContract.SQL_CREATE_SALE_ENTRIES)
+//        db.execSQL(ReaderContract.SQL_CREATE_LATEST_ENTRIES)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         // This database is only a cache for online data, so its upgrade policy is
         // to simply to discard the data and start over
         db.execSQL("DROP TABLE IF EXISTS ${ReaderContract.FeedEntry.TABLE_NAME_USER}")
-        db.execSQL("DROP TABLE IF EXISTS ${ReaderContract.FeedEntry.TABLE_NAME_SALE}")
-        db.execSQL("DROP TABLE IF EXISTS ${ReaderContract.FeedEntry.TABLE_NAME_LATEST}")
+//        db.execSQL("DROP TABLE IF EXISTS ${ReaderContract.FeedEntry.TABLE_NAME_SALE}")
+//        db.execSQL("DROP TABLE IF EXISTS ${ReaderContract.FeedEntry.TABLE_NAME_LATEST}")
         onCreate(db)
     }
 
@@ -110,54 +109,54 @@ class DbSql(dbHelper: FeedReaderDbHelper) {
     private val write = dbHelper.writableDatabase
     private val read = dbHelper.readableDatabase
 
-    fun selectSale() = read.query(
-        ReaderContract.FeedEntry.TABLE_NAME_SALE,
-        null,
-        null,
-        null, null, null, null
-    )?.let { cursor ->
-        val sale = ArrayList<FlashSale>()
-        while (cursor.moveToNext()) {
-            val s = FlashSale(
-                category = cursor.getString(cursor.getColumnIndexOrThrow(ReaderContract.FeedEntry.COLUMN_NAME_CATEGORY)),
-                image_url = cursor.getString(cursor.getColumnIndexOrThrow(ReaderContract.FeedEntry.COLUMN_NAME_IMAGE_URL)),
-                name = cursor.getString(cursor.getColumnIndexOrThrow(ReaderContract.FeedEntry.COLUMN_NAME_NAME)),
-                price = cursor.getString(cursor.getColumnIndexOrThrow(ReaderContract.FeedEntry.COLUMN_NAME_PRICE)),
-                discount = cursor.getString(cursor.getColumnIndexOrThrow(ReaderContract.FeedEntry.COLUMN_NAME_DISCOUNT))
-            )
-            sale.add(s)
-        }
-        cursor.close()
-        sale.toList()
-    }
+//    fun selectSale() = read.query(
+//        ReaderContract.FeedEntry.TABLE_NAME_SALE,
+//        null,
+//        null,
+//        null, null, null, null
+//    )?.let { cursor ->
+//        val sale = ArrayList<FlashSale>()
+//        while (cursor.moveToNext()) {
+//            val s = FlashSale(
+//                category = cursor.getString(cursor.getColumnIndexOrThrow(ReaderContract.FeedEntry.COLUMN_NAME_CATEGORY)),
+//                image_url = cursor.getString(cursor.getColumnIndexOrThrow(ReaderContract.FeedEntry.COLUMN_NAME_IMAGE_URL)),
+//                name = cursor.getString(cursor.getColumnIndexOrThrow(ReaderContract.FeedEntry.COLUMN_NAME_NAME)),
+//                price = cursor.getString(cursor.getColumnIndexOrThrow(ReaderContract.FeedEntry.COLUMN_NAME_PRICE)),
+//                discount = cursor.getString(cursor.getColumnIndexOrThrow(ReaderContract.FeedEntry.COLUMN_NAME_DISCOUNT))
+//            )
+//            sale.add(s)
+//        }
+//        cursor.close()
+//        sale.toList()
+//    }
 
-    fun selectLatest() = read.query(
-        ReaderContract.FeedEntry.TABLE_NAME_LATEST,
-        null,
-        null,
-        null, null, null, null
-    )?.let { cursor ->
-        val latest = ArrayList<Latest>()
-        while (cursor.moveToNext()) {
-            val l = Latest(
-                category = cursor.getString(cursor.getColumnIndexOrThrow(ReaderContract.FeedEntry.COLUMN_NAME_CATEGORY)),
-                image_url = cursor.getString(cursor.getColumnIndexOrThrow(ReaderContract.FeedEntry.COLUMN_NAME_IMAGE_URL)),
-                name = cursor.getString(cursor.getColumnIndexOrThrow(ReaderContract.FeedEntry.COLUMN_NAME_NAME)),
-                price = cursor.getString(cursor.getColumnIndexOrThrow(ReaderContract.FeedEntry.COLUMN_NAME_PRICE)),
-                discount = ""
-            )
-            latest.add(l)
-        }
-        cursor.close()
-        latest.toList()
-    }
+//    fun selectLatest() = read.query(
+//        ReaderContract.FeedEntry.TABLE_NAME_LATEST,
+//        null,
+//        null,
+//        null, null, null, null
+//    )?.let { cursor ->
+//        val latest = ArrayList<Latest>()
+//        while (cursor.moveToNext()) {
+//            val l = Latest(
+//                category = cursor.getString(cursor.getColumnIndexOrThrow(ReaderContract.FeedEntry.COLUMN_NAME_CATEGORY)),
+//                image_url = cursor.getString(cursor.getColumnIndexOrThrow(ReaderContract.FeedEntry.COLUMN_NAME_IMAGE_URL)),
+//                name = cursor.getString(cursor.getColumnIndexOrThrow(ReaderContract.FeedEntry.COLUMN_NAME_NAME)),
+//                price = cursor.getString(cursor.getColumnIndexOrThrow(ReaderContract.FeedEntry.COLUMN_NAME_PRICE)),
+//                discount = ""
+//            )
+//            latest.add(l)
+//        }
+//        cursor.close()
+//        latest.toList()
+//    }
 
 
     fun checkFields(): PointState {
         return when (true) {
             isEmailExists() -> PointState.EMAIL_IS_EXISTS
-            !Utils.isEmailCorrectly() -> PointState.WRONG_EMAIL
             (UserModel.firstName.value.isEmpty() || UserModel.lastName.value.isEmpty()) -> PointState.EMPTY_FIELD
+            !Utils.isEmailCorrectly() -> PointState.WRONG_EMAIL
             else -> PointState.DONE
         }
     }

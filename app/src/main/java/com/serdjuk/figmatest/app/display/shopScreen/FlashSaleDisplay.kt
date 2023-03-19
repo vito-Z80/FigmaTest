@@ -14,7 +14,9 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.serdjuk.figmatest.app.data.productSale
+import com.serdjuk.figmatest.app.display.ScreenName
 import com.serdjuk.figmatest.app.display.boxes.ProductBox
+import com.serdjuk.figmatest.app.display.setScreen
 import com.serdjuk.figmatest.ui.theme.BlackColor
 import com.serdjuk.figmatest.ui.theme.MutedColor
 
@@ -51,7 +53,11 @@ fun FlashSaleDisplay(screenSize: MutableState<IntSize>) {
         LazyRow(modifier = Modifier.padding(bottom = 16.dp)) {
             productSale.value?.let { product ->
                 items(product.size) {
-                    ProductBox(scale = scale, product = product[it], screenSize = screenSize)
+                    ProductBox(scale = scale, product = product[it], screenSize = screenSize) {
+                        setScreen(
+                            ScreenName.PRODUCT
+                        )
+                    }
                 }
             }
         }

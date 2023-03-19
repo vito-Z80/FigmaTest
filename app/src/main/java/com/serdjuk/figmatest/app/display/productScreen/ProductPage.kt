@@ -45,6 +45,8 @@ fun ProductPage() {
 
     }
     selectedImage.value = product.value?.images?.get(0)
+
+
     Surface {
 
         Column(

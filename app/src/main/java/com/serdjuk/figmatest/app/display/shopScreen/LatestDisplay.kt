@@ -54,7 +54,7 @@ fun LatestDisplay(screenSize: MutableState<IntSize>) {
         LazyRow(modifier = Modifier.padding(bottom = 16.dp)) {
             productLatest.value?.let { product ->
                 items(product.size) {
-                    ProductBox(scale = scale, product = product[it], screenSize = screenSize)
+                    ProductBox(scale = scale, product = product[it], screenSize = screenSize){}
                 }
             }
         }

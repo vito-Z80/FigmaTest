@@ -27,15 +27,17 @@ import com.serdjuk.figmatest.ui.theme.BlackColor
 fun AuthorizationButtons() {
 
     val context = LocalContext.current
-
+    val preference = UserRepository(context)
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         // sign with google
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.clickable {
-                UserRepository(context).fromPreference()
-                setScreen(ScreenName.SHOP)
+                if (preference.getUserFirstName().isNotEmpty()) {
+                    preference.fromPreference()
+                    setScreen(ScreenName.SHOP)
+                }
             }
         ) {
             Icon(
@@ -58,8 +60,10 @@ fun AuthorizationButtons() {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.clickable {
-                UserRepository(context).fromPreference()
-                setScreen(ScreenName.SHOP)
+                if (preference.getUserFirstName().isNotEmpty()) {
+                    preference.fromPreference()
+                    setScreen(ScreenName.SHOP)
+                }
             }
         ) {
             Icon(

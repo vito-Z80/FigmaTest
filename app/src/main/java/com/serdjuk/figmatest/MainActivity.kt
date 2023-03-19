@@ -121,6 +121,11 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    override fun onResume() {
+        systemControllerReturn.value = !systemControllerReturn.value
+        super.onResume()
+    }
+
     override fun onDestroy() {
         dbHelper.close()
         super.onDestroy()

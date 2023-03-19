@@ -34,7 +34,12 @@ import com.serdjuk.figmatest.ui.theme.*
 
 
 @Composable
-fun ProductBox(scale: Float, product: ProductApp, screenSize: MutableState<IntSize>) {
+fun ProductBox(
+    scale: Float,
+    product: ProductApp,
+    screenSize: MutableState<IntSize>,
+    clickable: () -> Unit,
+) {
 
 
     Box(
@@ -46,7 +51,7 @@ fun ProductBox(scale: Float, product: ProductApp, screenSize: MutableState<IntSi
                 color = Color(0x80808080), AbsoluteRoundedCornerShape(64f * scale)
             )
             .clickable {
-                setScreen(ScreenName.PRODUCT)
+                clickable.invoke()
             }
 
     ) {
