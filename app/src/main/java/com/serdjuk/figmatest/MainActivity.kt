@@ -1,151 +1,128 @@
 package com.serdjuk.figmatest
 
-import android.content.Context
+import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
+import androidx.core.net.toUri
 import androidx.core.view.WindowCompat
-import com.serdjuk.figmatest.app.AppScreen
-import com.serdjuk.figmatest.app.bottomBarShow
+import androidx.core.view.WindowInsetsControllerCompat
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.serdjuk.figmatest.app.data.*
+import com.serdjuk.figmatest.app.display.AppScreen
+import com.serdjuk.figmatest.app.display.ScreenName
+import com.serdjuk.figmatest.app.display.component.TabBar
+import com.serdjuk.figmatest.app.domain.Utils
+import com.serdjuk.figmatest.app.domain.getAvatarBitmap
 import com.serdjuk.figmatest.data.*
 import com.serdjuk.figmatest.ui.theme.FigmaTestTheme
+import java.io.File
+import java.util.*
 
 /*
-
     https://docs.google.com/document/d/1X92XL_aIOJzmk87Tg2rqqE836jHXjR-M/edit
     https://www.figma.com/file/H0SE8wvK5kIhQlZVxp0BNj/Online-Shop-Satria-Adhi-Pradana-(Community)?node-id=1%3A573&t=YjXhhISVru6ian3p-0
-    https://inloop.github.io/svg2android/
-
-    https://proandroiddev.com/implement-bottom-bar-navigation-in-jetpack-compose-b530b1cd9ee2
  */
 
-val screen = mutableStateOf(Navigate.SIGN_IN)
-val stack = java.util.Stack<Navigate>()
-lateinit var dbSql: DbSql
+val screen = mutableStateOf(ScreenName.SIGN_IN)
+val backCommand = mutableStateOf(false)
+val systemControllerReturn = mutableStateOf(false)
+val avatarBitmap: MutableState<Bitmap?> = mutableStateOf(null)
+
+// TODO
+//  product name, price - outlined
+//  page 2 ?
+
 
 class MainActivity : ComponentActivity() {
-    lateinit var dbHelper: FeedReaderDbHelper
+    private lateinit var dbHelper: FeedReaderDbHelper
+    private val stack = java.util.Stack<ScreenName>()
+    private val walkBack = mutableStateOf(true)
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
-        testJson()
 
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        window.statusBarColor = Color.Transparent.value.toInt()
-        window.navigationBarColor = Color.Transparent.value.toInt()
-
-//        window.setFlags(
-//            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-//            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
-//        )
 
         setContent {
-            dbHelper = FeedReaderDbHelper(LocalContext.current)
+            val context = LocalContext.current
+
+            getAvatarBitmap(context = context, File(context.filesDir, AVATAR_FILE).toUri())
+            dbHelper = FeedReaderDbHelper(context = context)
             dbSql = DbSql(dbHelper = dbHelper)
 
-
-//            println(windowManager.currentWindowMetrics.bounds.height())
+            // https://semicolonspace.com/status-bar-jetpack-compose/
+            val systemUiController = rememberSystemUiController()
+            systemUiController.setSystemBarsColor(color = Color.Transparent)
+            systemUiController.navigationBarDarkContentEnabled = false
+            systemUiController.systemBarsBehavior =
+                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
 
             FigmaTestTheme {
 
+
                 LaunchedEffect(screen.value) {
                     stack.push(screen.value)
-                    println("_______________________________________________________________________")
-                    println(stack.joinToString())
                 }
-//                val systemUiController = rememberSystemUiController()
-//                SideEffect {
-//                    systemUiController.setStatusBarColor(color = Color.Transparent)
-//                    systemUiController.setNavigationBarColor(color = Color.Transparent)
-//                }
-                // A surface container using the 'background' color from the theme
 
-
-                Scaffold(modifier = Modifier, topBar = { }, bottomBar = {}) {
-
-                    val walk = remember {
-                        mutableStateOf(true)
+                if (backCommand.value) {
+                    LaunchedEffect(backCommand.value) {
+                        backCommand.value = false
+                        Utils.navigation(stack = stack, walk = walkBack, context = window.context)
                     }
+                }
+                Scaffold(topBar = { }, bottomBar = {
+                    // принудительный вызов для мест которые влияют на systemUiController.isNavigationBarVisible
+                    systemControllerReturn.value
+                    when (screen.value) {
+                        ScreenName.SHOP,
+                        ScreenName.HOME,
+                        ScreenName.PROFILE,
+                        ScreenName.PRODUCT,
+                        -> {
+                            systemUiController.isNavigationBarVisible = false
+                            TabBar()
+                        }
+                        else -> {
+                            systemUiController.isNavigationBarVisible = true
+                        }
+                    }
+
+                }) {
+
                     Surface(
                         modifier = Modifier
-                            .navigationBarsPadding()
                             .fillMaxSize()
+                            .navigationBarsPadding()
                     ) {
-                        BackHandler(enabled = walk.value) {
-                            if (stack.isEmpty()) {
-                                walk.value = false
-                            } else {
-                                val previousScreen = stack.pop()
-                                bottomBarShow.value = false
-                                if (stack.isEmpty() || screen.value == Navigate.SIGN_IN) {
-                                    walk.value = false
-                                    Toast.makeText(
-                                        window.context,
-                                        "Tap Back again for exit",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                } else {
-                                    screen.value = stack.pop()
-                                }
-                            }
+                        BackHandler(enabled = walkBack.value) {
+                            Utils.navigation(
+                                stack = stack,
+                                walk = walkBack,
+                                context = window.context
+                            )
                         }
-
                         AppScreen()
                     }
                     it.calculateBottomPadding()
                 }
             }
         }
-
     }
 
     override fun onDestroy() {
         dbHelper.close()
         super.onDestroy()
-    }
-}
-
-@Composable
-fun BottomNavigationScreens() {
-    BottomNavigation() {
-        BottomNavigationItem(selected = false, onClick = { /*TODO*/ }, icon = {
-            Icon(
-                painter = painterResource(id = R.drawable.home),
-                contentDescription = null
-            )
-        }, unselectedContentColor = Color.Transparent, alwaysShowLabel = false)
-        BottomNavigationItem(selected = false, onClick = { /*TODO*/ }, icon = {
-            Icon(
-                painter = painterResource(id = R.drawable.like),
-                contentDescription = null
-            )
-        }, unselectedContentColor = Color.Transparent, alwaysShowLabel = false)
-        BottomNavigationItem(selected = false, onClick = { /*TODO*/ }, icon = {
-            Icon(
-                painter = painterResource(id = R.drawable.shopping_cart),
-                contentDescription = null
-            )
-        }, unselectedContentColor = Color.Transparent, alwaysShowLabel = false)
-        BottomNavigationItem(selected = false, onClick = { /*TODO*/ }, icon = {
-            Icon(
-                painter = painterResource(id = R.drawable.message),
-                contentDescription = null
-            )
-        }, unselectedContentColor = Color.Transparent, alwaysShowLabel = false)
     }
 }

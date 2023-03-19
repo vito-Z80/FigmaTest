@@ -21,6 +21,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -29,14 +30,14 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.serdjuk.figmatest.R
-import com.serdjuk.figmatest.data.INPUT_CORNER
+import com.serdjuk.figmatest.app.data.INPUT_CORNER
 import com.serdjuk.figmatest.ui.theme.*
 
-val emailRegex = mutableStateOf(Regex("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}\$"))
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
+// TODO move any to component package
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 @Composable
@@ -60,7 +61,8 @@ fun EnterButton(text: String, enabled: Boolean = true, onClick: () -> Unit) {
     ) {
         Text(
             text = text,
-            style = MaterialTheme.typography.h1,
+            style = MaterialTheme.typography.body1,
+            fontWeight = FontWeight.Bold,
             fontSize = 14f.sp,
             color = SignButtonTextColor
         )
@@ -98,6 +100,7 @@ fun InputValue(
         singleLine = true,
 
         textStyle = MaterialTheme.typography.h3,
+
 
         visualTransformation = if (pass?.value == true) PasswordVisualTransformation() else VisualTransformation.None,
 
@@ -142,12 +145,15 @@ fun InputValue(
                 contentAlignment = Alignment.Center
             ) {
                 if (value.value.isEmpty() /*&& !focus.value*/) {
-                    Text(
-                        text = placeholder,
-                        style = MaterialTheme.typography.h2,
-                        color = MutedColor,
-                        fontSize = 12.sp
-                    )
+//                    Column(modifier = Modifier.fillMaxHeight(), verticalArrangement = Arrangement.Center) {
+                        Text(
+                            text = placeholder,
+                            style = MaterialTheme.typography.body1,
+                            fontWeight = FontWeight.Medium,
+                            color = MutedColor,
+                            fontSize = 12.sp
+                        )
+//                    }
                 }
                 // show eye icon if pass != null
                 if (pass != null) {
@@ -167,8 +173,3 @@ fun InputValue(
         }
     )
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-@Composable
-fun Int.toPix() = LocalDensity.current.run { this@toPix.toDp().toPx() }

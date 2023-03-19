@@ -10,17 +10,24 @@ import androidx.compose.ui.unit.*
 
 // Set of Material typography styles to start with
 @OptIn(ExperimentalUnitApi::class)
-val fonts = FontFamily(
+val monserrat = FontFamily(
     listOf(
-        Font(com.serdjuk.figmatest.R.font.montserrat_medium, weight = FontWeight.Normal),
+        Font(com.serdjuk.figmatest.R.font.montserrat, weight = FontWeight.Normal),
         Font(com.serdjuk.figmatest.R.font.montserrat_medium, weight = FontWeight.Medium),
-        Font(com.serdjuk.figmatest.R.font.montserrat_medium, weight = FontWeight.Bold),
-        Font(com.serdjuk.figmatest.R.font.montserrat_medium, weight = FontWeight.Light),
-        Font(com.serdjuk.figmatest.R.font.montserrat_medium, weight = FontWeight.ExtraLight),
-        Font(com.serdjuk.figmatest.R.font.montserrat_medium, weight = FontWeight.ExtraBold),
+        Font(com.serdjuk.figmatest.R.font.montserrat_semibold, weight = FontWeight.SemiBold),
+        Font(com.serdjuk.figmatest.R.font.montserrat_bold, weight = FontWeight.Bold),
+        Font(com.serdjuk.figmatest.R.font.montserrat_light, weight = FontWeight.Light),
     )
 )
 
+val poppins = FontFamily(
+    listOf(
+        Font(com.serdjuk.figmatest.R.font.poppins_semibold, weight = FontWeight.SemiBold),
+        Font(com.serdjuk.figmatest.R.font.poppins_bold, weight = FontWeight.Bold),
+        Font(com.serdjuk.figmatest.R.font.poppins_medium, weight = FontWeight.Medium),
+        Font(com.serdjuk.figmatest.R.font.poppins, weight = FontWeight.Normal),
+    )
+)
 
 val Typography = Typography(
 //    body1 = TextStyle(
@@ -29,9 +36,23 @@ val Typography = Typography(
 //        fontWeight = FontWeight.Normal,
 //        fontSize = 16.sp
 //    ),
+    body1 = TextStyle(
+        fontFamily = monserrat,
+        fontSize = 26.sp,
+        textAlign = TextAlign.Center,
+        letterSpacing = (-0.3).sp,
+        fontWeight = FontWeight.SemiBold
+    ),
+    body2 = TextStyle(
+        fontFamily = poppins,
+        fontSize = 11.sp,
+        textAlign = TextAlign.Center,
+        letterSpacing = (-0.3).sp,
+        fontWeight = FontWeight.Bold
+    ),
     h1 = TextStyle(
 //        color = Color.White,
-        fontFamily = fonts,
+        fontFamily = monserrat,
         fontSize = 26f.sp,
         fontWeight = FontWeight(700),
 //        lineHeight = 32f.sp,
@@ -49,7 +70,7 @@ val Typography = Typography(
      */
     h2 = TextStyle(
         color = MutedColor,
-        fontFamily = fonts,
+        fontFamily = monserrat,
         fontSize = 11f.sp,
         fontWeight = FontWeight(500),
         lineHeight = 13f.sp,
@@ -58,16 +79,16 @@ val Typography = Typography(
     ),
     h3 = TextStyle(
         color = ParagraphColor,
-        fontFamily = fonts,
-        fontSize = 11f.sp,
-        fontWeight = FontWeight(500),
+        fontFamily = monserrat,
+        fontSize = 12f.sp,
+        fontWeight = FontWeight.Bold,
         lineHeight = 13f.sp,
         letterSpacing = (-0.30000001192092896).sp,
         textAlign = TextAlign.Center
     ),
     subtitle1 = TextStyle(
         color = ParagraphColor,
-        fontFamily = fonts,
+        fontFamily = monserrat,
         fontSize = 26f.sp,
         fontWeight = FontWeight(600),
         lineHeight = 32f.sp,
@@ -76,7 +97,7 @@ val Typography = Typography(
     ),
     subtitle2 = TextStyle(
         color = ParagraphColor,
-        fontFamily = fonts,
+        fontFamily = monserrat,
         fontSize = 26f.sp,
         fontWeight = FontWeight(600),
         lineHeight = 32f.sp,
