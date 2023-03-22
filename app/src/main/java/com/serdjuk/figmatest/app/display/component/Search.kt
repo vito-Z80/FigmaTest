@@ -1,4 +1,4 @@
-package com.serdjuk.figmatest.app
+package com.serdjuk.figmatest.app.display.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -22,24 +22,28 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.serdjuk.figmatest.R
+import com.serdjuk.figmatest.app.data.EMPTY_STRING
 import com.serdjuk.figmatest.systemControllerReturn
 import com.serdjuk.figmatest.ui.theme.*
+
+
+val searchQuery = mutableStateOf(EMPTY_STRING)
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun AppSearch() {
-    val search = remember { mutableStateOf("") }
     val keyboardController = LocalSoftwareKeyboardController.current
 
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
+
 
     Row(
         modifier = Modifier
             .fillMaxWidth(0.75f)
             .background(color = SearchBackgroundColor, AbsoluteRoundedCornerShape(12f.dp))
             .padding(horizontal = 8.dp),
-        verticalAlignment = Alignment.CenterVertically
+//        verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
             modifier = Modifier
@@ -52,17 +56,16 @@ fun AppSearch() {
                     .fillMaxWidth()
                     .align(Alignment.Center)
                     .focusRequester(focusRequester = focusRequester),
-                value = search.value,
+                value = searchQuery.value,
                 keyboardActions = KeyboardActions(
                     onDone = {
                         keyboardController?.hide()
                         focusManager.clearFocus()
                         systemControllerReturn.value = !systemControllerReturn.value
                     }),
-                onValueChange = { search.value = it },
-//                cursorBrush = if (focus.value) SolidColor(BlackColor) else SolidColor(Color.Unspecified),
+                onValueChange = { searchQuery.value = it.trimStart() },
                 decorationBox = { itf ->
-                    if (search.value.isEmpty()) {
+                    if (searchQuery.value.isEmpty()) {
                         Column(
                             modifier = Modifier
                                 .fillMaxHeight()
@@ -102,5 +105,9 @@ fun AppSearch() {
                 )
             }
         }
+        Box(modifier = Modifier.padding(top = 24.dp)) {
+            SearchList(keyboardController)
+        }
+
     }
 }

@@ -2,10 +2,7 @@ package com.serdjuk.figmatest.app.data
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.OkHttpClient
@@ -16,19 +13,20 @@ const val API_LATEST = "https://run.mocky.io/v3/cc0071a1-f06e-48fa-9e90-b1c2a61e
 const val API_SALE = "https://run.mocky.io/v3/a9ceeb6e-416d-4352-bde6-2203416576ac"
 const val API_BRAND = "https://run.mocky.io/v3/3016c108-cc73-4e64-82bf-4508e54f0de1"
 const val API_PRODUCT = "https://run.mocky.io/v3/748b68bb-9a12-42a4-b611-8d5dd2501409"
+const val API_SEARCH = "https://run.mocky.io/v3/4c9cd822-9479-4509-803d-63197e5a9e19"
 
 var productLatest: MutableState<List<Latest>?> = mutableStateOf(null)
 var productSale: MutableState<List<FlashSale>?> = mutableStateOf(null)
 val brands: MutableState<List<Brand>?> = mutableStateOf(null)
 val product: MutableState<Product?> = mutableStateOf(null)
-
+val searchResult = mutableStateOf<List<List<String>>?>(null)
 
 object Api {
     private val client = OkHttpClient()
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
         throwable.printStackTrace()
     }
-    private val coroutine = CoroutineScope(Dispatchers.IO + coroutineExceptionHandler)
+    val coroutine = CoroutineScope(Dispatchers.IO + coroutineExceptionHandler)
 
     fun getProducts() {
         coroutine.launch {
@@ -42,6 +40,10 @@ object Api {
         coroutine.launch {
             brands.value = getObject<BrandModel>(API_BRAND, BrandModel::class.java)?.brand
         }
+    }
+
+    suspend fun getSearching(template: String) = withContext(context = coroutine.coroutineContext) {
+        getObject<BrandModel2>(API_SEARCH, BrandModel2::class.java)?.words
     }
 
     fun getOneProduct() {

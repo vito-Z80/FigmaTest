@@ -13,7 +13,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.IntSize
-import com.serdjuk.figmatest.app.AppSearch
+import com.serdjuk.figmatest.app.display.component.AppSearch
 import com.serdjuk.figmatest.app.display.component.Categories
 import com.serdjuk.figmatest.app.LatestDisplay
 import com.serdjuk.figmatest.app.data.Api
